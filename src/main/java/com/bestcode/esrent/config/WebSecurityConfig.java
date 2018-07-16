@@ -1,5 +1,7 @@
 package com.bestcode.esrent.config;
 
+import com.bestcode.esrent.security.AuthProvider;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/**").hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/admin/login")
+                .loginProcessingUrl("/login")
                 .and();
 
         http.csrf().disable();
@@ -37,7 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("admin")
-                .roles("ADMIN");
+//        auth.inMemoryAuthentication().withUser("admin").password("admin")
+//                .roles("ADMIN");
+        auth.authenticationProvider(authProvider()).eraseCredentials(true);
+    }
+
+    @Bean
+    public AuthProvider authProvider() {
+        return new AuthProvider();
     }
 }
