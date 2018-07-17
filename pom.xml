@@ -68,6 +68,12 @@
 			<version>3.0.2.RELEASE</version>
 		</dependency>
 
+		<!-- 七牛云依赖 -->
+		<dependency>
+			<groupId>com.qiniu</groupId>
+			<artifactId>qiniu-java-sdk</artifactId>
+			<version>[7.2.0, 7.2.99]</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -75,11 +81,11 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- SpringBoot热加载插件 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-devtools</artifactId>-->
+			<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
