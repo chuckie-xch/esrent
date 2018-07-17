@@ -33,7 +33,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setCharacterEncoding("UTF-8");
+//        templateResolver.setCharacterEncoding("utf-8");
         return templateResolver;
     }
 
@@ -62,6 +62,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public ThymeleafViewResolver viewResolver() {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
+//        viewResolver.setCharacterEncoding("utf-8");
         return viewResolver;
     }
 }
