@@ -1,10 +1,12 @@
 package com.bestcode.esrent.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.TemplateEngine;
@@ -64,5 +66,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         viewResolver.setTemplateEngine(templateEngine());
 //        viewResolver.setCharacterEncoding("utf-8");
         return viewResolver;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

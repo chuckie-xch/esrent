@@ -45,7 +45,9 @@ public class ApiResponse {
         INTERNAL_SERVER_ERROR(500, "Unknown Internal Error"),
         NOT_VALID_PARAM(40005, "Not Valid Param"),
         NOT_SUPPORT_OPERATION(40006, "Operation Not Supported "),
-        NOT_LOGIN(50000, "Not Login");;
+        NOT_LOGIN(50000, "Not Login"),
+        NOT_FOUND(404, "Not Found"),
+        ;
 
         private Integer code;
         private String standardMessage;
