@@ -7,6 +7,7 @@ import com.bestcode.esrent.service.base.ServiceMultiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -27,5 +28,34 @@ public class HouseController {
             return ApiResponse.ofStatus(ApiResponse.Status.NOT_FOUND);
         }
         return ApiResponse.ofSuccess(result.getResult());
+    }
+
+    /**
+     * 获取对应城市支持的区域列表
+     *
+     * @param cityEnName
+     * @return
+     */
+    @GetMapping("/address/support/regions")
+    @ResponseBody
+    public ApiResponse getSupportRegions(@RequestParam(name = "city_name") String cityEnName) {
+        ServiceMultiResult<SupportAddressDTO> addressResult = supportAddressService.findAllRegionsByCityName
+                (cityEnName);
+        if (addressResult.getResult() == null || addressResult.getTotal() < 1) {
+            return ApiResponse.ofStatus(ApiResponse.Status.NOT_FOUND);
+        }
+        return ApiResponse.ofSuccess(addressResult);
+    }
+
+    /**
+     * 获取具体城市所支持的地铁线路
+     *
+     * @param cityEnName
+     * @return
+     */
+    @GetMapping("address/support/subway/line")
+    @ResponseBody
+    public ApiResponse getSupportSubway(@RequestParam(name = "city_name") String cityEnName) {
+        return null;
     }
 }

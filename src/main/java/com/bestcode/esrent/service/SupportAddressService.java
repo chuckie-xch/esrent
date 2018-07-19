@@ -13,4 +13,6 @@ import com.bestcode.esrent.service.base.ServiceMultiResult;
 public interface SupportAddressService {
 
     ServiceMultiResult<SupportAddressDTO> findAllCities();
+
+    ServiceMultiResult<SupportAddressDTO> findAllRegionsByCityName(String cityEnName);
 }

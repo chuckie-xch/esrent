@@ -11,6 +11,7 @@ import com.bestcode.esrent.service.base.ServiceMultiResult;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * @author xch
@@ -34,5 +35,19 @@ public class SupportAddressServiceImpl implements SupportAddressService {
             supportAddressDTOS.add(target);
         }
         return new ServiceMultiResult<>(supportAddressDTOS.size(), supportAddressDTOS);
+    }
+
+    @Override
+    public ServiceMultiResult<SupportAddressDTO> findAllRegionsByCityName(String cityEnName) {
+        if (StringUtils.isEmpty(cityEnName)) {
+            return new ServiceMultiResult<>(0, null);
+        }
+        List<SupportAddress> regions = supportAddressRepository.findAllByLevelAndBelongTo(SupportAddress.Level.REGION
+                .getValue(), cityEnName);
+        List<SupportAddressDTO> result = new ArrayList<>();
+        for (SupportAddress supportAddress : regions) {
+            result.add(modelMapper.map(supportAddress, SupportAddressDTO.class));
+        }
+        return new ServiceMultiResult<>(result.size(), result);
     }
 }
