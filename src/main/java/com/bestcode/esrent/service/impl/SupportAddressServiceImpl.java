@@ -2,12 +2,20 @@ package com.bestcode.esrent.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.bestcode.esrent.entity.Subway;
+import com.bestcode.esrent.entity.SubwayStation;
 import com.bestcode.esrent.entity.SupportAddress;
+import com.bestcode.esrent.entity.dto.SubwayDTO;
+import com.bestcode.esrent.entity.dto.SubwayStationDTO;
 import com.bestcode.esrent.entity.dto.SupportAddressDTO;
+import com.bestcode.esrent.repository.SubwayRepository;
+import com.bestcode.esrent.repository.SubwayStationRepository;
 import com.bestcode.esrent.repository.SupportAddressRepository;
 import com.bestcode.esrent.service.SupportAddressService;
 import com.bestcode.esrent.service.base.ServiceMultiResult;
+import com.sun.org.apache.regexp.internal.REUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +30,12 @@ public class SupportAddressServiceImpl implements SupportAddressService {
 
     @Autowired
     private SupportAddressRepository supportAddressRepository;
+
+    @Autowired
+    private SubwayStationRepository subwayStationRepository;
+
+    @Autowired
+    private SubwayRepository subwayRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -49,5 +63,27 @@ public class SupportAddressServiceImpl implements SupportAddressService {
             result.add(modelMapper.map(supportAddress, SupportAddressDTO.class));
         }
         return new ServiceMultiResult<>(result.size(), result);
+    }
+
+    @Override
+    public List<SubwayDTO> findAllSubwayByCity(String cityEnName) {
+        List<SubwayDTO> result = new ArrayList<>();
+        List<Subway> subways = subwayRepository.findAllByCityEnName(cityEnName);
+        if (subways.isEmpty()) {
+            return result;
+        }
+        result = subways.stream().map(subway -> modelMapper.map(subway, SubwayDTO.class)).collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public List<SubwayStationDTO> findAllStationBySubway(Long subwayId) {
+        List<SubwayStationDTO> result = new ArrayList<>();
+        List<SubwayStation> stations = subwayStationRepository.findAllBySubwayId(subwayId);
+        if (stations.isEmpty()) {
+            return result;
+        }
+        stations.forEach(station -> result.add(modelMapper.map(station, SubwayStationDTO.class)));
+        return result;
     }
 }

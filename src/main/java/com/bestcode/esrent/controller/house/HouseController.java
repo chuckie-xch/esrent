@@ -1,6 +1,10 @@
 package com.bestcode.esrent.controller.house;
 
+import java.util.List;
+
 import com.bestcode.esrent.base.ApiResponse;
+import com.bestcode.esrent.entity.dto.SubwayDTO;
+import com.bestcode.esrent.entity.dto.SubwayStationDTO;
 import com.bestcode.esrent.entity.dto.SupportAddressDTO;
 import com.bestcode.esrent.service.SupportAddressService;
 import com.bestcode.esrent.service.base.ServiceMultiResult;
@@ -53,9 +57,29 @@ public class HouseController {
      * @param cityEnName
      * @return
      */
-    @GetMapping("address/support/subway/line")
+    @GetMapping("/address/support/subway/line")
     @ResponseBody
-    public ApiResponse getSupportSubway(@RequestParam(name = "city_name") String cityEnName) {
-        return null;
+    public ApiResponse getSupportSubwayLine(@RequestParam(name = "city_name") String cityEnName) {
+        List<SubwayDTO> subways = supportAddressService.findAllSubwayByCity(cityEnName);
+        if (subways.isEmpty()) {
+            return ApiResponse.ofStatus(ApiResponse.Status.NOT_FOUND);
+        }
+        return ApiResponse.ofSuccess(subways);
+    }
+
+    /**
+     * 获取对应地铁线路所支持的地铁站点
+     * @param subwayId
+     * @return
+     */
+    @GetMapping("address/support/subway/station")
+    @ResponseBody
+    public ApiResponse getSupportSubwayStation(@RequestParam(name = "subway_id") Long subwayId) {
+        List<SubwayStationDTO> stationDTOS = supportAddressService.findAllStationBySubway(subwayId);
+        if (stationDTOS.isEmpty()) {
+            return ApiResponse.ofStatus(ApiResponse.Status.NOT_FOUND);
+        }
+
+        return ApiResponse.ofSuccess(stationDTOS);
     }
 }
